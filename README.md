@@ -1,59 +1,116 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Newsletter Management System (Laravel)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Project Overview
 
-## About Laravel
+This project is a web-based Newsletter Management System developed using **Laravel**.
+It allows administrators to create, manage, and control news content with an automatic expiry feature, while users can view only active news updates.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Expired content is soft-deleted (not permanently removed) and can be restored by the admin, making the system suitable for short-lived announcements such as alerts, maintenance notices, and temporary updates.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Key Features
 
-## Learning Laravel
+### Admin Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+* Admin authentication (login)
+* Create, view, edit, and delete newsletters
+* Automatic content expiry after 2 minutes
+* Soft delete (no permanent deletion)
+* Restore expired content and extend expiry for another 2 minutes
+* View both active and deleted newsletters
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### User Features
 
-## Laravel Sponsors
+* View only active newsletters
+* Clean and responsive news display
+* Auto-refresh news content every 30 seconds
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## Auto Expiry Logic
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+* When a newsletter is created, it is given an expiry time of 2 minutes
+* After expiry:
+  * The content is automatically soft-deleted using Laravel Scheduler
+  * The content is hidden from users
+* Admin can restore expired content, which:
+  * Removes soft-delete status
+  * Resets expiry time for another 2 minutes
+    
+---
 
-## Contributing
+## Tech Stack
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+* **Backend:** Laravel
+* **Frontend:** Blade Templates, Tailwind CSS
+* **Database:** MySQL
+* **Scheduler:** Laravel Task Scheduler
+* **Version Control:** Git & GitHub
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Installation & Setup
 
-## Security Vulnerabilities
+### Install Dependencies
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+composer install
+npm install
+npm run build
+```
 
-## License
+### Environment Setup
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+---
+
+### Run Database Migration
+
+```bash
+php artisan migrate
+```
+
+---
+
+### Run the Application
+
+```bash
+php artisan serve
+```
+
+Access the system at:
+
+```
+http://127.0.0.1:8000
+```
+
+---
+
+## Scheduler Setup
+
+To enable auto-expiry locally, run:
+
+```bash
+php artisan schedule:work
+```
+
+This allows Laravel to automatically soft-delete expired newsletters.
+
+---
+
+## Notes
+
+* No permanent deletion is implemented
+* Expired content remains recoverable
+* Designed for short-lived, real-world announcements
+
+---
+
+## Author
+
+**Maryam Abdullah**
